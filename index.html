@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Car Garage</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        hr {
+            border: 1px solid #ccc;
+            margin: 15px 0;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #555;
+        }
+
+        input {
+            padding: 10px;
+            margin: 5px 0 15px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            border: 1px solid #ddd;
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <h2>my car garage</h2><hr>
+    car color <input type="text" id="carcolor"> <br><br>
+    car model <input type="text" id="carmodel"><br><br>
+    license plate <input type="text" id="licenseplate"><br><br>
+    car manufacturer <input type="text" id="carmanuf"><br><br>
+    <button onclick="jsonappend()">add car</button>
+    <button onclick="resetcars()">Reset</button>
+    <button onclick="clearFields()">clear fields</button><br><br>
+    <button onclick="removelast()">remove last car</button><br><br>
+    remove car with id <input type="text" id="remove">
+    <button onclick="removebyid()">submit</button>
+    <hr>
+
+    <p>my car garage</p><br>
+    <!-- Display car list -->
+    <ul id="carListDisplay"></ul>
+
+    <script>
+        let carlist = [] //carjson
+        let carid = 0 // id for each car(json)
+
+        //add car to carlist
+
+        function jsonappend() {
+            carlist.push({
+                "color": carcolor.value, "model": carmodel.value, "license": licenseplate.value,
+                "manufacturer": carmanuf.value, "carid": carid
+            })
+            carid++
+            console.log(carlist);
+            displayCarList();
+
+        }
+
+        //resets the carlist
+
+        function resetcars() {
+            carlist = []
+            carid = 0
+            clearFields()
+            displayCarList();
+        }
+
+        //remove last card and lowers car id value
+
+        function removelast() {
+            carlist.pop()
+            carid--
+            displayCarList();
+        }
+
+
+        // Function to display the car list
+        function displayCarList() {
+            const carListDisplay = document.getElementById("carListDisplay");
+            carListDisplay.innerHTML = '';
+
+            for (let i = 0; i < carlist.length; i++) {
+                const car = carlist[i];
+
+                const listItem = document.createElement("li");//create a li for my ul at the body
+                listItem.textContent = `Car ID: ${car.carid}, Color: ${car.color}, Model: ${car.model}, License: ${car.license}, Manufacturer: ${car.manufacturer}`;
+
+                carListDisplay.appendChild(listItem);
+            }
+        }
+
+
+        //clear fields
+
+        function clearFields() {
+            document.getElementById('carcolor').value = '';
+            document.getElementById('carmodel').value = '';
+            document.getElementById('carmanuf').value = '';
+            document.getElementById('licenseplate').value = '';
+            document.getElementById('remove').value='';
+        }
+
+
+
+        //remove car by id
+
+        function removebyid() {
+            let index = +remove.value
+            carlist.splice(index, 1)
+            displayCarList();
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>
